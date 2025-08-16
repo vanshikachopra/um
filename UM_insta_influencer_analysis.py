@@ -40,19 +40,16 @@ for col in to_numeric:
 if "Country" in df.columns:
     df["Country"] = df["Country"].fillna(df['Country'].mode()[0])
 
-# Drop rows that are missing the most essential numeric fields
+# Dropping rows that are missing the most essential numeric fields
 df = df.dropna(subset=["Followers", "Average Likes", "Engagement Rate"]).reset_index(drop=True)
 
-# Optional: create a couple of handy features for intuition (not used in models directly)
+# Mathematical Calculations
 df["Likes_per_1k_followers"] = (df["Average Likes"] / df["Followers"]) * 1000
 df["Posts_per_1k_followers"] = (df["Posts"] / df["Followers"]) * 1000
 
 
-
-
-# 4) Visualizations (Matplotlib)
-
-# 1. Top 20 by Followers
+# 4) Visualizations / Graphs
+# 1. Top 20 by Followers (line chart)
 top20 = df.nlargest(20, "Followers")
 plt.figure(figsize=(10,5))
 plt.plot(top20["Name"], top20["Followers"])
@@ -63,7 +60,7 @@ plt.title("Top 20 Influencers by Followers", fontweight = 'bold')
 plt.tight_layout()
 plt.show()
 
-# 2. Followers vs Average Likes (scatter)
+# 2. Followers vs Average Likes (scatter plot)
 plt.figure(figsize=(8,5))
 plt.scatter(df["Followers"], df["Likes_per_1k_followers"], alpha = 0.5 ,color= "red")
 plt.xlabel("Number of Followers (in 100 Millions)", fontweight = 'bold')
@@ -81,7 +78,7 @@ plt.title("Influencers vs their Engagement Rate Distribution", fontweight = 'bol
 plt.tight_layout()
 plt.show()
 
-# 4. Country-wise influencer count (Top 20)
+# 4. Country-wise influencer count (Top 20)  (bar graph)
 country_counts = df["Country"].value_counts().head(20)
 plt.figure(figsize=(10,5))
 plt.bar(country_counts.index, country_counts.values, color = "green")
@@ -119,7 +116,10 @@ plt.tight_layout()
 plt.show()
 
 # Printing a simple score
-print("\n\nLinear Regression R^2 on test set:", linreg.score(X_test, y_test))
+print("--------------------------------------------------------------------------------------------------------------------------------------------------------")
+print("\nLinear Regression R^2 on test set:", linreg.score(X_test, y_test))
+print("--------------------------------------------------------------------------------------------------------------------------------------------------------")
+
 
 # 6. KMeans (Unsupervised): Cluster on Followers & Engagement Rate
 x_cluster = df[["Followers", "Engagement Rate"]]
@@ -148,6 +148,6 @@ plt.tight_layout()
 plt.show()
 
 # Printing a tiny preview 
-print("\n\nCleaned data preview:\n")
+print("\n\n--------------------------------------------------------Cleaned data preview-------------------------------------------------------------------------\n")
 print(df.head(10).to_string(index = False))
 
