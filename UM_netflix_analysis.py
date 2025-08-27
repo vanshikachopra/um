@@ -58,17 +58,7 @@ plt.show()
 
 
 
-# 2. Titles by Release Year                                                             (line chart)
-df["release_year"].dropna().astype(int).value_counts().sort_index().plot(kind = "line", color = "red")
-plt.title("Number of Movies/TV Shows released in each year", fontweight = "bold")
-plt.xlabel("Release Year", fontweight = "bold")
-plt.ylabel("Number of Movies/TV Shows", fontweight = "bold")
-plt.tight_layout()
-plt.show()
-
-
-
-# 3. Ratings Distribution (K-Means Clustering)                                          (scatter plot)
+# 2. Ratings Distribution (K-Means Clustering)                                          (scatter plot)
 rating_map = {
     "TV-Y": 6,
     "TV-Y7": 7,
@@ -120,7 +110,7 @@ plt.show()
 
 
 
-# 4. Movie Durations                                                                (histogram)
+# 3. Movie Durations                                                                (histogram)
 movies = df[df["type"] == "Movie"]
 plt.hist(movies["duration_minutes"], bins=30, color = "maroon")
 plt.title("Distribution of Movie Durations (in Minutes)", fontweight = "bold")
@@ -131,7 +121,7 @@ plt.show()
 
 
 
-# 5. TV Show Seasons                                                                   (line chart)
+# 4. TV Show Seasons                                                                   (line chart)
 shows = df[df["type"] == "TV Show"]
 season_counts = shows["seasons_count"].value_counts().sort_index()
 plt.plot(season_counts.index, season_counts.values, color = "maroon", marker = "o")
@@ -143,7 +133,7 @@ plt.show()
 
 
 
-# 6. Top Countries Producing the Netflix Movies/TV Shows in the dataset                 (bar graph)
+# 5. Top Countries Producing the Netflix Movies/TV Shows in the dataset                 (bar graph)
 top_countries = df[df["country"] != "Unknown"]["country"].value_counts().head(15).dropna().plot(kind = "bar" , color = "grey")
 plt.title("Top 15 Countries Producing the Netflix Movies/TV Shows in the dataset" , fontweight = "bold")
 plt.xlabel("Country's Name" , fontweight = "bold")
@@ -154,7 +144,7 @@ plt.show()
 
 
 
-# 7. Top Genres                                                                         (pie chart)
+# 6. Top Genres                                                                         (pie chart)
 top_genres = df["listed_in"].str.split(",").explode().str.strip().value_counts().head(10)
 explode = [0.05] * len(top_genres)
 top_genres.plot(kind = "pie", autopct = "%1.1f%%", shadow = True, explode = explode, startangle = 0, cmap = "tab10")
@@ -165,7 +155,7 @@ plt.show()
 
 
 
-# 8. Movies/TV Shows added over Time                                                    (line graph)
+# 7. Movies/TV Shows added over Time                                                    (line graph)
 # Year-Wise Distribution of Movies/TV Shows added
 if "date_added" in df.columns:
     # Converting to datetime
