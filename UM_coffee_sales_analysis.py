@@ -5,16 +5,15 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 
-# Loading and combining datasets
+# 1. Loading and combining datasets
 df1 = pd.read_csv("coffee sales1.csv")
 df2 = pd.read_csv("coffee sales2.csv")
 df = pd.concat([df1, df2], ignore_index=True)
 
-# Data Cleaning
+# 2. Data Cleaning & Preprocessing
 df.drop(columns = ['card'], inplace = True)
 df.drop_duplicates(inplace = True)
 
-# Data Preprocessing
 df['is_card'] = df['cash_type'].apply(lambda x: 1 if x == 'card' else 0)
 df['datetime'] = pd.to_datetime(df['datetime'], format = "mixed")
 df['date'] = pd.to_datetime(df['date'])
@@ -23,7 +22,7 @@ df['day'] = df['datetime'].dt.day
 df['weekday'] = df['datetime'].dt.day_name()
 df['month'] = df['datetime'].dt.month_name()
 
-# Encoding categorical variables
+# 3. Encoding categorical variables
 df_encoded = pd.get_dummies(df[['cash_type', 'coffee_name', 'hour']], drop_first=True)
 
 # Preparing features and target
@@ -33,14 +32,13 @@ y = df['money']
 # Train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 100)
 
-# Training the model
+# Training model
 model = LinearRegression()
 model.fit(X_train, y_train)
 
 # Predicting and evaluating
 y_pred = model.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
-
 print(f"Linear Regression Model - Mean Squared Error: {mse:.2f}")
 
 
